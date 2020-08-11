@@ -1,4 +1,4 @@
-#include "blackjack.h"
+#include "./blackjack.h"
 
 //declare structs here
 
@@ -14,6 +14,7 @@ void populateDeck(Deck *deck){
             i++;
         }
     }
+    deck->num_cards = NUMOFCARDS;
 }
 
 void shuffleDeck(Deck *deck){
@@ -27,15 +28,21 @@ void shuffleDeck(Deck *deck){
         deck->cards[rand_num] = deck->cards[i];
         deck->cards[i] = temp;
     }
-    deck->top_card=deck->cards[0]
+    deck->top_card_num=0;
+    deck->top_card=deck->cards[deck->top_card_num];
 }
 
 void createPlayers(Game* game, int num_players){
-    game->num_players = num_players
-    game->players = (Player*)malloc(sizeof(Player) * game->num_players));
-    game->dealer = (Player*)malloc(sizeof(Player));
+    game->num_players = num_players;
+    game->players = (Player*)malloc(sizeof(Player) * game->num_players);
 }
 
 void dealCards(Game* game, Deck *deck){
-
+    for (int i=0; i<game->num_players; i++){
+        for(int j=0; j<2; j++){
+            game->players[i].hand.cards[j] = deck->top_card;
+            deck->top_card_num++;
+            deck->top_card = deck->cards[deck->top_card_num];
+        }
+    }
 }
