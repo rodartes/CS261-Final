@@ -43,9 +43,14 @@ typedef struct Game{
     int num_players;
 }Game;
 
-void populateDeck(Deck*);
-void shuffleDeck(Deck*);
-void createPlayers(Game*, int);
-void dealCards(Game*, Deck*);
+Deck* deckInit(Deck*);
+Deck* populateDeck(Deck*);
+Deck* shuffleDeck(Deck*);
+Game* gameInit(Game*);
+Game* createPlayers(Game*, int);
+Game* dealCards(Game*, Deck*);
+void deleteDeck(Deck*);
+void deleteGame(Game*);
+void deletePlayers(Game*);
 
 #endif
