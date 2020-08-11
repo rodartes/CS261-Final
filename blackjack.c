@@ -25,20 +25,6 @@ struct Deck* createDeck();
 void shufflecards(struct Deck* dealerdeck);
 void swap(struct cards *a, struct cards *b);
 
-int main(void) {
-  struct Deck *dealerdeck;
-  dealerdeck=createDeck();
-  char* suits[4];
-  suits[0] = "HEARTS";
-  suits[1] = "SPADES";
-  suits[2] = "CLUBS";
-  suits[3] = "DIAMOND";
-  setup_cards(dealerdeck, suits);
-  shufflecards(dealerdeck);
-  print_cards(dealerdeck);
-}
-
-
 void setup_cards(struct Deck* dealerdeck, char* suits[4]){
   int i = 0;
   int counter = 0;
@@ -73,10 +59,23 @@ void shufflecards(struct Deck* dealerdeck){
   }
 }
 
-
 void swap(struct cards *a, struct cards *b){
   struct cards *tempcard;
   tempcard = b;
   *b=*a;
   *a = *tempcard;
+}
+
+int main(){
+  struct Deck *dealerdeck;
+  dealerdeck=createDeck();
+  char* suits[4];
+  suits[0] = "HEARTS";
+  suits[1] = "SPADES";
+  suits[2] = "CLUBS";
+  suits[3] = "DIAMOND";
+  setup_cards(dealerdeck, suits);
+  shufflecards(dealerdeck);
+  print_cards(dealerdeck);
+  return 0;
 }

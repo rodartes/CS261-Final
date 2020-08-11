@@ -9,7 +9,6 @@ Enjoy!
 Coded by Carlos Manuel Beleno Santos, Akshat Lunia, Samantha Rodarte and Hamza Shahzor Swati
 CS 261 FINAL
 *********************************************/
-
 #include "blackjack.h"
 #include "stdio.h"
 
