@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <time.h>
 
+#define NUMOFCARDS 52
+
 using namespace std;
 
 typedef struct Card{
@@ -32,15 +34,21 @@ typedef struct Player{
 
 typedef struct Deck{
     //For the amount of cards in the deck
-    Card cards[52];
-    int num_cards = 52;
+    Card cards[NUMOFCARDS];
+    int num_cards = NUMOFCARDS;
     //To get the top card of the deck
-    int top_card = 0;
+    Card top_card;
 }Deck;
 
-void populateDeck(Deck*)
+typedef struct Game{
+    Player *players;
+    Player dealer;
+    int num_players;
+}Game;
+
+void populateDeck(Deck*);
 void shuffleDeck(Deck*);
-int set_rank(int);
-int set_suit(int);
+void createPlayers(Game*, int);
+void dealCards(Game*, Deck*);
 
 #endif
