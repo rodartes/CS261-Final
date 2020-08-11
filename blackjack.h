@@ -9,14 +9,10 @@
 
 #define NUMOFCARDS 52
 
-using namespace std;
-
 typedef struct Card{
     //value of each card
     int rank;
     int suit;
-    //This will let us know who to assign the card to
-    string holder;
 }Card;
 
 typedef struct Hand{
@@ -29,14 +25,15 @@ typedef struct Player{
     //Assigns a hand to a player
     Hand hand;
     //name of the player
-    string name;
+    char name[256];
 }Player;
 
 typedef struct Deck{
     //For the amount of cards in the deck
     Card cards[NUMOFCARDS];
-    int num_cards = NUMOFCARDS;
+    int num_cards;// = NUMOFCARDS;
     //To get the top card of the deck
+    int top_card_num;
     Card top_card;
 }Deck;
 
