@@ -18,8 +18,17 @@ int main(){
     int chips = 1000;
     Deck *deck;
     deck = deckInit(deck);
+    /* for(int i=0; i<NUMOFCARDS; i++){
+        printf("card is %d\n", deck->cards[i].rank);
+    } */
     deck = populateDeck(deck);
+    for(int i=0; i<NUMOFCARDS; i++){
+        printf("card is %d, suit is %d\n", deck->cards[i].rank, deck->cards[i].suit);
+    }
     deck = shuffleDeck(deck);
+    /* for(int i=0; i<NUMOFCARDS; i++){
+        printf("card is %d\n", deck->cards[i].rank);
+    } */
     //shuffling twice here
     deck = shuffleDeck(deck);
     printf("deck card at top is %d\n", deck->top_card.rank);
@@ -28,8 +37,12 @@ int main(){
     //game = createPlayers(game, 1);
     while(again == 1){
         //creates 1 player to start the game with
-        game = createPlayers(game, 1);
+        //game = createPlayers(game, 1);
         deck = shuffleDeck(deck);
+        printf("dealing cards\n");
+        game = dealCards(game, deck);
+        printf("dealCards() is done\n");
+        printf("Player 1's cards are %d and %d\n", game->players.hand.cards[0].rank, game->players.hand.cards[1].rank);
         if(chips < 0){
             printf("You have gone bankrupt!");
             again = 0;
@@ -41,7 +54,7 @@ int main(){
         scanf("%d", &again); 
         deck->top_card_num = 0;
         deck->top_card = deck->cards[deck->top_card_num];
-        deletePlayers(game);
+        //deletePlayers(game);
         }
     }
     /*
@@ -54,9 +67,11 @@ int main(){
     * 
     * 
     */
-
+    printf("deleting deck\n");
     deleteDeck(deck);
-    deletePlayers(game);
+    printf("deleting players\n");
+    //deletePlayers(game);
+    printf("deleting game\n");
     deleteGame(game);
     return 0;
 }
