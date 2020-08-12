@@ -58,5 +58,9 @@ Game* addCardDealer(Game*, Deck*);
 void displaytwocards(int rankone, int ranktwo, int suitone, int suittwo);
 void displayonecard(int rankone, int suitone);
 void show_rules();
-
+int bet(int chips);
+int hitstand();
+void dealusersingle(Game* game, Deck *deck);
+void dealersinglecard(Game* game, Deck *deck);
+int calculatepoints(int card);
 #endif
