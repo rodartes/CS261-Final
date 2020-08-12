@@ -65,4 +65,7 @@ int hitstand();
 int calculatepoints(int cardval);
 int checkpoints(int points);
 int dealervsuser(int userpoints, int dealerpoints);
+Deck* setup_deck(Deck *deck);
+Game* setup_game(Game* game);
+int gamesetup();
 #endif
