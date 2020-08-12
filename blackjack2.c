@@ -204,67 +204,91 @@ int bet(int chips){
           if(x <= chips)
                 invalid = 0;
         }
-    }
-    else if (x == chips){
-        int con =  0;
-        printf("These are all your chips! Are you sure? (Enter 0 to continue or any other number to change the amount)");
-        if(con != 0){
-            int invalid = 1;
-            while(invalid == 1){
-                printf("How much would you like to bet?");
-                scanf("%d", &x);
-                if(x <= chips)
-                    invalid = 0;
+        int i = hitstand();
+        if (i == 1){
+          printf("User's third card is :\n");
+          addCardPlayer(game,deck);
+          displayonecard(game->players.hand.cards[2].rank, game->players.hand.cards[2].suit);
+          userpoints = userpoints + calculatepoints(game->players.hand.cards[2].rank);
+          printf("Current points for user %d\n", userpoints);
+          check = checkpoints(userpoints);
+          if (check == 1){
+            printf("You went above 21, you are busted\n");
+            playerBank = playerBank - playerbet;
+            again = 0;
+            break;
+          }
+          int k = hitstand();
+          if (k == 1){
+            printf("User's fourth card is :\n");
+            addCardPlayer(game, deck);
+            displayonecard(game->players.hand.cards[3].rank, game->players.hand.cards[3].suit);
+            userpoints = userpoints + calculatepoints(game->players.hand.cards[3].rank);
+            printf("Current points for user %d\n", userpoints);
+            check = checkpoints(userpoints);
+            if (check == 1){
+              printf("You went above 21, you are busted\n");
+              playerBank = playerBank - playerbet;
+              again = 0;
+              break;
             }
+          }
         }
+        if (i == 2){
+          printf("Dealer's second card is : ");
+          displayonecard(game->dealer.hand.cards[1].rank, game->dealer.hand.cards[1].suit);
+          dealerpoints = calculatepoints(game->dealer.hand.cards[0].rank) + calculatepoints(game->dealer.hand.cards[1].rank);
+          printf("Dealer points %d\n", dealerpoints);
+          int vspoints = dealervsuser(userpoints, dealerpoints);
+          if (vspoints == 1){
+            addCardDealer(game, deck);
+            printf("Dealer's third card is : ");
+            displayonecard(game->dealer.hand.cards[2].rank, game->dealer.hand.cards[2].suit);
+            dealerpoints = dealerpoints + calculatepoints(game->dealer.hand.cards[2].rank);
+            check = checkpoints(dealerpoints);
+            if (check == 1){
+              printf("Dealer went above 21, you Won\n");
+              playerBank = playerBank + playerbet;
+              
+              again = 0;
+              break;
+            }
+            vspoints = dealervsuser(userpoints, dealerpoints);
+            if (vspoints == 0){
+              printf("Dealer won\n");
 
-    }
-    return x;
-}
-
-int hitstand(){
-  int check = 0;
-  while (check == 0){
-    printf("Would you like to Hit or Stand? \n");
-    printf("Press H for HIT and press S for Stand\n");
-    char ch1;
-    scanf(" %c", &ch1);
-    if (ch1 == 'H'){
-      check = 1;
-      return 1;
-    }
-    else if (ch1 == 'S'){
-      check = 1;
-      return 2;
-    }
-    else {
-      check = 0;
-      printf("Wrong input, please type in the the correct choice. \n");
-    }
-  }
-}
-
-int calculatepoints(int card){
-  if (card == 11 || card == 12 || card == 13){
-    return 10;
-  }
-  else if (card == 1 ){
-    int invalid;
-    printf("It seems like you have an Ace, what points would you like to consider 1 or 11 :\n");
-    int x = 0;
-    scanf("%d", &x);
-    if (x == 1 || x == 11){
-      invalid = 0;
-      return x;
-    }
-    while(invalid == 1){
-        printf("It seems like you have an Ace, what points would you like to consider 1 or 11 :\n");
-        scanf("%d", &x);
-        if (x == 1 || x == 11){
-        invalid = 0;
-        return x;
+            }
+          }
+        }
+        if(chips < 0){
+            printf("You have gone bankrupt!");
+            again = 0;
+            //keep in mind this will go right to delete, which is what
+            //it should do. This will end the program though.
+        }
+        else{
+        printf("Would you like to play again? (Enter 1 for yes, 0 for no): ");
+        scanf("%d", &again);
+        deck->top_card_num = 0;
+        deck->top_card = deck->cards[deck->top_card_num];
+        //deletePlayers(game);
         }
     }
-  }
-  return card;
+    /*
+    *
+    *
+    * To add a new card to a player, pass the game object, deck
+    * object, and the number 1 because we will only have
+    * one player in our game
+    *
+    *
+    *
+    */
+    // printf("deleting deck\n");
+    // deleteDeck(deck);
+    // printf("deleting players\n");
+    // //deletePlayers(game);
+    // printf("deleting game\n");
+    // deleteGame(game);
+    return 0;
 }
