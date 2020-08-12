@@ -8,14 +8,11 @@
 
 // 1 = HEARTS
 // 2 = SPADES
-// 3 = CLUBS
+//  3 = CLUBS
 // 4 = Diamond
 
 Deck* deckInit(Deck *deck){
-    deck = (Deck*)malloc(sizeof(struct Deck));
-    if(deck==NULL){
-        printf("Error allocating memory\n");
-    }
+    deck = (Deck*)malloc(sizeof(Deck*));
     return deck;
 }
 
@@ -82,20 +79,6 @@ Game* dealCards(Game* game, Deck *deck){
     return game;
 }
 
-void dealusersingle(Game* game, Deck *deck){
-  game->players.hand.cards[game->players.hand.n_cards] = deck->top_card;
-  game->players.hand.n_cards++;
-  deck->top_card_num++;
-  deck->top_card = deck->cards[deck->top_card_num];
-}
-
-void dealersinglecard(Game* game, Deck *deck){
-  game->dealer.hand.cards[game->dealer.hand.n_cards] = deck->top_card;
-  game->dealer.hand.n_cards++;
-  deck->top_card_num++;
-  deck->top_card = deck->cards[deck->top_card_num];
-}
-
 void deleteDeck(Deck* deck){
     free(deck);
     deck = 0;
@@ -111,7 +94,7 @@ void deleteGame(Game* game){
     game = 0;
 }
 
-Game* addCardPlayer(Game* game, Deck* deck/*,  int player */){
+void addCardPlayer(Game* game, Deck* deck/*,  int player */){
     game->players.hand.cards[game->players.hand.n_cards] = deck->top_card;
     game->players.hand.n_cards++;
     deck->top_card_num++;
@@ -119,12 +102,12 @@ Game* addCardPlayer(Game* game, Deck* deck/*,  int player */){
     return game;
 }
 
-Game* addCardDealer(Game* game, Deck* deck){
+void addCardDealer(Game* game, Deck* deck){
     game->dealer.hand.cards[game->dealer.hand.n_cards] = deck->top_card;
     game->dealer.hand.n_cards++;
     deck->top_card_num++;
     deck->top_card = deck->cards[deck->top_card_num];
-    return game;
+    // return game;
 }
 
 void displaytwocards(int rankone, int ranktwo, int suitone, int suittwo){
@@ -245,11 +228,11 @@ int hitstand(){
   }
 }
 
-int calculatepoints(int card){
-  if (card == 11 || card == 12 || card == 13){
+int calculatepoints(int cardval){
+  if (cardval == 11 || cardval == 12 || cardval == 13){
     return 10;
   }
-  else if (card == 1 ){
+  else if (cardval == 1 ){
     int invalid;
     printf("It seems like you have an Ace, what points would you like to consider 1 or 11 :\n");
     int x = 0;
@@ -257,15 +240,39 @@ int calculatepoints(int card){
     if (x == 1 || x == 11){
       invalid = 0;
       return x;
+      while(invalid == 1){
+          printf("It seems like you have an Ace, what points would you like to consider 1 or 11 :\n");
+          scanf("%d", &x);
+          if (x == 1 || x == 11){
+            invalid = 0;
+            return x;
+          }
     }
-    while(invalid == 1){
-        printf("It seems like you have an Ace, what points would you like to consider 1 or 11 :\n");
-        scanf("%d", &x);
-        if (x == 1 || x == 11){
-        invalid = 0;
-        return x;
-        }
     }
   }
-  return card;
+  else {
+    return cardval;
+  }
+
+}
+
+int checkpoints(int points){
+  if (points > 21){
+    return 1;
+  }
+  else {
+    return 0;
+  }
+}
+
+int dealervsuser(int userpoints, int dealerpoints){
+  if (userpoints > dealerpoints){
+    return 1;
+  }
+  else if (userpoints < dealerpoints){
+    return 0;
+  }
+  else if (dealerpoints == userpoints){
+    return 3;
+  }
 }
