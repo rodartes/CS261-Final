@@ -39,7 +39,7 @@ typedef struct Deck{
 }Deck;
 
 typedef struct Game{
-    Player *players;
+    Player players;
     Player dealer;
     int num_players;
 }Game;
@@ -48,12 +48,12 @@ Deck* deckInit(Deck*);
 Deck* populateDeck(Deck*);
 Deck* shuffleDeck(Deck*);
 Game* gameInit(Game*);
-Game* createPlayers(Game*, int);
+//Game* createPlayers(Game*, int);
 Game* dealCards(Game*, Deck*);
 void deleteDeck(Deck*);
 void deleteGame(Game*);
-void deletePlayers(Game*);
-Game* addCardPlayer(Game*, Deck*, int);
+//void deletePlayers(Game*);
+Game* addCardPlayer(Game*, Deck* /* , int */);
 Game* addCardDealer(Game*, Deck*);
 
 #endif
