@@ -25,7 +25,7 @@ int main(){
     printf("deck card at top is %d\n", deck->top_card.rank);
     Game *game;
     game = gameInit(game);
-    game = createPlayers(game, 1);
+    //game = createPlayers(game, 1);
     while(again == 1){
         //creates 1 player to start the game with
         game = createPlayers(game, 1);
