@@ -5,7 +5,13 @@
 //define functions here
 
 //This will set all the values in the deck in acending order
-void populateDeck(Deck *deck){
+
+Deck* deckInit(Deck *deck){
+    deck = (Deck*)malloc(sizeof(Deck*));
+    return deck;
+}
+
+Deck* populateDeck(Deck *deck){
     int i=0;
     for(int suit=1; suit<5; suit++){
         for(int rank=1; rank<14; rank++){
@@ -15,11 +21,13 @@ void populateDeck(Deck *deck){
         }
     }
     deck->num_cards = NUMOFCARDS;
+    return deck;
 }
 
-void shuffleDeck(Deck *deck){
+Deck* shuffleDeck(Deck *deck){
     Card temp;
-    srand(time(NULL));
+    time_t t;
+    srand((unsigned) time(&t));
     //loops for number of cards and swaps them with temp where
     // temp holds a random card
     for(int i=0; i<deck->num_cards; i++){
@@ -30,14 +38,21 @@ void shuffleDeck(Deck *deck){
     }
     deck->top_card_num=0;
     deck->top_card=deck->cards[deck->top_card_num];
+    return deck;
 }
 
-void createPlayers(Game* game, int num_players){
+Game* gameInit(Game* game){
+    game = (Game*)malloc(sizeof(Game));
+    return game;
+}
+
+Game* createPlayers(Game* game, int num_players){
     game->num_players = num_players;
     game->players = (Player*)malloc(sizeof(Player) * game->num_players);
+    return game;
 }
 
-void dealCards(Game* game, Deck *deck){
+Game* dealCards(Game* game, Deck *deck){
     for (int i=0; i<game->num_players; i++){
         for(int j=0; j<2; j++){
             game->players[i].hand.cards[j] = deck->top_card;
@@ -45,4 +60,23 @@ void dealCards(Game* game, Deck *deck){
             deck->top_card = deck->cards[deck->top_card_num];
         }
     }
+    for(int j=0; j<2; j++){
+        game->dealer
+    }
+    return game;
+}
+
+void deleteDeck(Deck* deck){
+    free(deck);
+    deck = 0;
+}
+
+void deletePlayers(Game* game){
+    free(game->players);
+    game->players = 0;
+}
+
+void deleteGame(Game* game){
+    free(game);
+    game = 0;
 }
