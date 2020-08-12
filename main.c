@@ -1,11 +1,10 @@
 /*********************************************
 Welcome to our program: Blackjack Simulator
 You will play against the computer for as many rounds as you would like
-Your "chips" will indicate how well you are doing. 
-You begin with 1000 chips. 
+Your "chips" will indicate how well you are doing.
+You begin with 1000 chips.
 If you run out of chips before ending the program, you will go bankrupt.
 Enjoy!
-
 Coded by Carlos Manuel Beleno Santos, Akshat Lunia, Samantha Rodarte and Hamza Shahzor Swati
 CS 261 FINAL
 *********************************************/
@@ -22,16 +21,16 @@ int main(){
         printf("card is %d\n", deck->cards[i].rank);
     } */
     deck = populateDeck(deck);
-    for(int i=0; i<NUMOFCARDS; i++){
-        printf("card is %d, suit is %d\n", deck->cards[i].rank, deck->cards[i].suit);
-    }
+    // for(int i=0; i<NUMOFCARDS; i++){
+    //     printf("card is %d, suit is %d\n", deck->cards[i].rank, deck->cards[i].suit);
+    // }
     deck = shuffleDeck(deck);
     /* for(int i=0; i<NUMOFCARDS; i++){
         printf("card is %d\n", deck->cards[i].rank);
     } */
     //shuffling twice here
     deck = shuffleDeck(deck);
-    printf("deck card at top is %d\n", deck->top_card.rank);
+    // printf("deck card at top is %d\n", deck->top_card.rank);
     Game *game;
     game = gameInit(game);
     //game = createPlayers(game, 1);
@@ -39,10 +38,16 @@ int main(){
         //creates 1 player to start the game with
         //game = createPlayers(game, 1);
         deck = shuffleDeck(deck);
-        printf("dealing cards\n");
+        // printf("dealing cards\n");
         game = dealCards(game, deck);
-        printf("dealCards() is done\n");
-        printf("Player 1's cards are %d and %d\n", game->players.hand.cards[0].rank, game->players.hand.cards[1].rank);
+        // printf("dealCards() is done\n");
+        show_rules();
+        // printf("Player 1's cards are %d and %d\n", game->players.hand.cards[0].rank, game->players.hand.cards[1].rank);
+        printf("Player 1's card are : \n");
+        displaytwocards(game->players.hand.cards[0].rank, game->players.hand.cards[1].rank, game->players.hand.cards[0].suit, game->players.hand.cards[1].suit);
+        printf("Dealer's first card is: \n");
+        displayonecard(game->dealer.hand.cards[0].rank, game->dealer.hand.cards[0].suit);
+
         if(chips < 0){
             printf("You have gone bankrupt!");
             again = 0;
@@ -51,7 +56,7 @@ int main(){
         }
         else{
         printf("Would you like to play again? (Enter 1 for yes, 0 for no): ");
-        scanf("%d", &again); 
+        scanf("%d", &again);
         deck->top_card_num = 0;
         deck->top_card = deck->cards[deck->top_card_num];
         //deletePlayers(game);
@@ -59,13 +64,13 @@ int main(){
     }
     /*
     *
-    * 
+    *
     * To add a new card to a player, pass the game object, deck
     * object, and the number 1 because we will only have
     * one player in our game
-    * 
-    * 
-    * 
+    *
+    *
+    *
     */
     printf("deleting deck\n");
     deleteDeck(deck);
