@@ -19,7 +19,7 @@ int main(){
     deck = deckInit(deck);
     /* for(int i=0; i<NUMOFCARDS; i++){
         printf("card is %d\n", deck->cards[i].rank);
-    } */
+    }*/
     deck = populateDeck(deck);
     // for(int i=0; i<NUMOFCARDS; i++){
     //     printf("card is %d, suit is %d\n", deck->cards[i].rank, deck->cards[i].suit);
@@ -35,6 +35,8 @@ int main(){
     game = gameInit(game);
     //game = createPlayers(game, 1);
     while(again == 1){
+      system("clear");
+        int playerBank = 1000;
         //creates 1 player to start the game with
         //game = createPlayers(game, 1);
         deck = shuffleDeck(deck);
@@ -42,12 +44,26 @@ int main(){
         game = dealCards(game, deck);
         // printf("dealCards() is done\n");
         show_rules();
+        printf("\n\n");
+        int playerbet = bet(playerBank);
+        // int playercardcount = 0;
         // printf("Player 1's cards are %d and %d\n", game->players.hand.cards[0].rank, game->players.hand.cards[1].rank);
+        int userpoints =0;
+        int dealerpoints = 0;
         printf("Player 1's card are : \n");
         displaytwocards(game->players.hand.cards[0].rank, game->players.hand.cards[1].rank, game->players.hand.cards[0].suit, game->players.hand.cards[1].suit);
+        userpoints = calculatepoints(game->players.hand.cards[0].rank) + calculatepoints(game->players.hand.cards[1].rank);
+        printf("Current points for user %d\n", userpoints);
         printf("Dealer's first card is: \n");
-        displayonecard(game->dealer.hand.cards[0].rank, game->dealer.hand.cards[0].suit);
-
+        displayonecard(game->dealer.hand.cards[0].rank, game->dealer.hand.cards[1].suit);
+        int i = hitstand();
+        if (i == 1){
+          printf("User's third card is :\n");
+          void dealusersingle(game,deck);
+          displayonecard(game->players.hand.cards[2].rank, game->players.hand.cards[2].suit);
+          userpoints = userpoints + calculatepoints(game->players.hand.cards[2].rank);
+          printf("Current points for user %d\n", userpoints);
+        }
         if(chips < 0){
             printf("You have gone bankrupt!");
             again = 0;
