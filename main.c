@@ -56,9 +56,7 @@ int main(){
         }
         else{
         printf("Would you like to play again? (Enter 1 for yes, 0 for no): ");
-        scanf("%d", &again);
-        deck->top_card_num = 0;
-        deck->top_card = deck->cards[deck->top_card_num];
+        scanf("%d", &again); 
         //deletePlayers(game);
         }
     }

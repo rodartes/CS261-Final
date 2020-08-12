@@ -12,7 +12,10 @@
 // 4 = Diamond
 
 Deck* deckInit(Deck *deck){
-    deck = (Deck*)malloc(sizeof(Deck*));
+    deck = (Deck*)malloc(sizeof(struct Deck));
+    if(deck==NULL){
+        printf("Error allocating memory\n");
+    }
     return deck;
 }
 
@@ -47,7 +50,12 @@ Deck* shuffleDeck(Deck *deck){
 }
 
 Game* gameInit(Game* game){
-    game = (Game*)malloc(sizeof(Game));
+    game = (Game*)malloc(sizeof(struct Game));
+    if(game == NULL){
+        printf("Error allocating memory for game..\n");
+    }
+    game->players.hand.n_cards = 0;
+    game->dealer.hand.n_cards = 0;
     return game;
 }
 
