@@ -53,7 +53,7 @@ int main(){
         printf("Player 1's card are : \n");
         displaytwocards(game->players.hand.cards[0].rank, game->players.hand.cards[1].rank, game->players.hand.cards[0].suit, game->players.hand.cards[1].suit);
         userpoints = calculatepoints(game->players.hand.cards[0].rank) + calculatepoints(game->players.hand.cards[1].rank);
-        printf("Current points for user %d\n", userpoints);
+        printf("You have %d\n points in total.", userpoints);
         printf("Dealer's first card is: \n");
         displayonecard(game->dealer.hand.cards[0].rank, game->dealer.hand.cards[1].suit);
         int i = hitstand();

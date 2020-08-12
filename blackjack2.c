@@ -191,10 +191,9 @@ void show_rules(){
   printf("You will start with 1000 chips and can play until you have zero chips or press q to end\n");
 }
 
-
 int bet(int chips){
     int x;
-    printf("How much would you like to bet? Your currently have %d\n", chips);
+    printf("How much would you like to bet? You currently have %d\n chips.", chips);
     scanf("%d", &x);
     if(x > chips){
         printf("Invalid amount!");
