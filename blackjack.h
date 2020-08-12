@@ -55,5 +55,8 @@ void deleteGame(Game*);
 //void deletePlayers(Game*);
 Game* addCardPlayer(Game*, Deck* /* , int */);
 Game* addCardDealer(Game*, Deck*);
+void displaytwocards(int rankone, int ranktwo, int suitone, int suittwo);
+void displayonecard(int rankone, int suitone);
+void show_rules();
 
 #endif
