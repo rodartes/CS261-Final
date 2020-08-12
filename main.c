@@ -53,16 +53,71 @@ int main(){
         printf("Player 1's card are : \n");
         displaytwocards(game->players.hand.cards[0].rank, game->players.hand.cards[1].rank, game->players.hand.cards[0].suit, game->players.hand.cards[1].suit);
         userpoints = calculatepoints(game->players.hand.cards[0].rank) + calculatepoints(game->players.hand.cards[1].rank);
+        printf("Dealer's first card is: ");
+        displayonecard(game->dealer.hand.cards[0].rank, game->dealer.hand.cards[0].suit);
         printf("Current points for user %d\n", userpoints);
-        printf("Dealer's first card is: \n");
-        displayonecard(game->dealer.hand.cards[0].rank, game->dealer.hand.cards[1].suit);
+        int check = 0;
+        check = checkpoints(userpoints);
+        if (check == 1){
+          printf("You went above 21, you are busted\n");
+          playerBank = playerBank - playerbet;
+          again = 0;
+        }
         int i = hitstand();
         if (i == 1){
           printf("User's third card is :\n");
-          void dealusersingle(game,deck);
+          addCardPlayer(game,deck);
           displayonecard(game->players.hand.cards[2].rank, game->players.hand.cards[2].suit);
           userpoints = userpoints + calculatepoints(game->players.hand.cards[2].rank);
           printf("Current points for user %d\n", userpoints);
+          check = checkpoints(userpoints);
+          if (check == 1){
+            printf("You went above 21, you are busted\n");
+            playerBank = playerBank - playerbet;
+            again = 0;
+            break;
+          }
+          int k = hitstand();
+          if (k == 1){
+            printf("User's fourth card is :\n");
+            addCardPlayer(game, deck);
+            displayonecard(game->players.hand.cards[3].rank, game->players.hand.cards[3].suit);
+            userpoints = userpoints + calculatepoints(game->players.hand.cards[3].rank);
+            printf("Current points for user %d\n", userpoints);
+            check = checkpoints(userpoints);
+            if (check == 1){
+              printf("You went above 21, you are busted\n");
+              playerBank = playerBank - playerbet;
+              again = 0;
+              break;
+            }
+          }
+        }
+        if (i == 2){
+          printf("Dealer's second card is : ");
+          displayonecard(game->dealer.hand.cards[1].rank, game->dealer.hand.cards[1].suit);
+          dealerpoints = calculatepoints(game->dealer.hand.cards[0].rank) + calculatepoints(game->dealer.hand.cards[1].rank);
+          printf("Dealer points %d\n", dealerpoints);
+          int vspoints = dealervsuser(userpoints, dealerpoints);
+          if (vspoints == 1){
+            addCardDealer(game, deck);
+            printf("Dealer's third card is : ");
+            displayonecard(game->dealer.hand.cards[2].rank, game->dealer.hand.cards[2].suit);
+            dealerpoints = dealerpoints + calculatepoints(game->dealer.hand.cards[2].rank);
+            check = checkpoints(dealerpoints);
+            if (check == 1){
+              printf("Dealer went above 21, you Won\n");
+              playerBank = playerBank + playerbet;
+              
+              again = 0;
+              break;
+            }
+            vspoints = dealervsuser(userpoints, dealerpoints);
+            if (vspoints == 0){
+              printf("Dealer won\n");
+
+            }
+          }
         }
         if(chips < 0){
             printf("You have gone bankrupt!");
@@ -72,7 +127,9 @@ int main(){
         }
         else{
         printf("Would you like to play again? (Enter 1 for yes, 0 for no): ");
-        scanf("%d", &again); 
+        scanf("%d", &again);
+        deck->top_card_num = 0;
+        deck->top_card = deck->cards[deck->top_card_num];
         //deletePlayers(game);
         }
     }
@@ -86,11 +143,11 @@ int main(){
     *
     *
     */
-    printf("deleting deck\n");
-    deleteDeck(deck);
-    printf("deleting players\n");
-    //deletePlayers(game);
-    printf("deleting game\n");
-    deleteGame(game);
+    // printf("deleting deck\n");
+    // deleteDeck(deck);
+    // printf("deleting players\n");
+    // //deletePlayers(game);
+    // printf("deleting game\n");
+    // deleteGame(game);
     return 0;
 }
