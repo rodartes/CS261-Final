@@ -226,23 +226,23 @@ int bet(int chips){
 int hitstand(){
   int check = 0;
   while (check == 0){
-  printf("Would you like to Hit or Stand\n");
-  printf("Press H for HIT and press S for Stand\n");
-  char ch1;
-  scanf(" %c", &ch1);
-  if (ch1 == 'H'){
-    check = 1;
-    return 1;
+    printf("Would you like to Hit or Stand? \n");
+    printf("Press H for HIT and press S for Stand\n");
+    char ch1;
+    scanf(" %c", &ch1);
+    if (ch1 == 'H'){
+      check = 1;
+      return 1;
+    }
+    else if (ch1 == 'S'){
+      check = 1;
+      return 2;
+    }
+    else {
+      check = 0;
+      printf("Wrong input, please type in the the correct choice. \n");
+    }
   }
-  else if (ch1 == 'S'){
-    check =1;
-    return 2;
-  }
-  else {
-    check = 0;
-    printf("Wrong input, please type in the the correct choice\n");
-  }
-}
 }
 
 int calculatepoints(int card){
@@ -250,24 +250,22 @@ int calculatepoints(int card){
     return 10;
   }
   else if (card == 1 ){
-    int check = 0;
+    int invalid;
     printf("It seems like you have an Ace, what points would you like to consider 1 or 11 :\n");
     int x = 0;
     scanf("%d", &x);
-    if (x != 1 || x != 11){
-      int invalid = 1;
-      while(invalid == 1){
-          printf("It seems like you have an Ace, what points would you like to consider 1 or 11 :\n");
-          scanf("%d", &x);
-          if (x == 1 || x == 11){
-            invalid = 0;
-            return x;
-          }
+    if (x == 1 || x == 11){
+      invalid = 0;
+      return x;
     }
+    while(invalid == 1){
+        printf("It seems like you have an Ace, what points would you like to consider 1 or 11 :\n");
+        scanf("%d", &x);
+        if (x == 1 || x == 11){
+        invalid = 0;
+        return x;
+        }
     }
   }
-  else {
-    return card;
-  }
-
+  return card;
 }
