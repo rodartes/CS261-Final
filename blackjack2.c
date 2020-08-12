@@ -46,22 +46,20 @@ Game* gameInit(Game* game){
     return game;
 }
 
-Game* createPlayers(Game* game, int num_players){
+/* Game* createPlayers(Game* game, int num_players){
     game->num_players = num_players;
     game->players = (Player*)malloc(sizeof(Player) * game->num_players);
     return game;
-}
+} */
 
 Game* dealCards(Game* game, Deck *deck){
     game->dealer.hand.n_cards = 0;
-    for (int i=0; i<game->num_players; i++){
-        game->players[i].hand.n_cards = 0;
-        for(int j=0; j<2; j++){
-            game->players[i].hand.cards[j] = deck->top_card;
-            game->players[i].hand.n_cards++;
-            deck->top_card_num++;
-            deck->top_card = deck->cards[deck->top_card_num];
-        }
+    game->players.hand.n_cards = 0;
+    for(int j=0; j<2; j++){
+        game->players.hand.cards[j] = deck->top_card;
+        game->players.hand.n_cards++;
+        deck->top_card_num++;
+        deck->top_card = deck->cards[deck->top_card_num];
     }
     for(int j=0; j<2; j++){
         game->dealer.hand.cards[j] = deck->top_card;
@@ -77,19 +75,19 @@ void deleteDeck(Deck* deck){
     deck = 0;
 }
 
-void deletePlayers(Game* game){
+/* void deletePlayers(Game* game){
     free(game->players);
     game->players = 0;
-}
+} */
 
 void deleteGame(Game* game){
     free(game);
     game = 0;
 }
 
-Game* addCardPlayer(Game* game, Deck* deck, int player){
-    game->players[player].hand.cards[game->players[player].hand.n_cards] = deck->top_card;
-    game->players[player].hand.n_cards++;
+Game* addCardPlayer(Game* game, Deck* deck/*,  int player */){
+    game->players.hand.cards[game->players.hand.n_cards] = deck->top_card;
+    game->players.hand.n_cards++;
     deck->top_card_num++;
     deck->top_card = deck->cards[deck->top_card_num];
     return game;
