@@ -17,7 +17,8 @@ typedef struct Card{
 
 typedef struct Hand{
     //Array of cards that can be in a hand
-    Card *cards;
+    Card cards[50];
+    //number of cards in player's hand
     int n_cards;
 }Hand;
 
@@ -52,5 +53,7 @@ Game* dealCards(Game*, Deck*);
 void deleteDeck(Deck*);
 void deleteGame(Game*);
 void deletePlayers(Game*);
+Game* addCardPlayer(Game*, Deck*, int);
+Game* addCardDealer(Game*, Deck*);
 
 #endif
