@@ -22,7 +22,7 @@ int bet(int chips){
                 invalid = 0;
         }
     }
-    else if(x=chips){
+    else if(x==chips){
         int con =  0;
         printf("These are all your chips! Are you sure? (Enter 0 to continue or any other number to change the amount)");
         if(con != 0){
@@ -50,8 +50,4 @@ void first(){
     else{
         printf("Bust! Dealer wins!");
     }*/
-}
-
-int main(){
-    return 0;
 }

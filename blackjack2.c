@@ -8,7 +8,7 @@
 
 // 1 = HEARTS
 // 2 = SPADES
-//  3 = CLUBS
+// 3 = CLUBS
 // 4 = Diamond
 
 Deck* deckInit(Deck *deck){
