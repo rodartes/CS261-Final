@@ -53,15 +53,21 @@ Game* createPlayers(Game* game, int num_players){
 }
 
 Game* dealCards(Game* game, Deck *deck){
+    game->players[i].hand.n_cards = 0;
+    game->dealer.hand.n_cards = 0;
     for (int i=0; i<game->num_players; i++){
         for(int j=0; j<2; j++){
             game->players[i].hand.cards[j] = deck->top_card;
+            game->players[i].hand.n_cards++;
             deck->top_card_num++;
             deck->top_card = deck->cards[deck->top_card_num];
         }
     }
     for(int j=0; j<2; j++){
-        game->dealer
+        game->dealer.hand.cards[j] = deck->top_card;
+        game->dealer.hand.n_cards++;
+        deck->top_card_num++;
+        deck->top_card = deck->cards[deck->top_card_num];
     }
     return game;
 }
@@ -79,4 +85,20 @@ void deletePlayers(Game* game){
 void deleteGame(Game* game){
     free(game);
     game = 0;
+}
+
+Game* addCardPlayer(Game* game, Deck* deck, int player){
+    game->players[player].hand.cards[game->players[player].hand.n_cards] = deck->top_card;
+    game->players[player].hand.n_cards++;
+    deck->top_card_num++;
+    deck->top_card = deck->cards[deck->top_card_num];
+    return game;
+}
+
+Game* addCardDealer(Game* game, Deck* deck){
+    game->dealer.hand.cards[game->dealer.hand.n_cards] = deck->top_card;
+    game->dealer.hand.n_cards++;
+    deck->top_card_num++;
+    deck->top_card = deck->cards[deck->top_card_num];
+    return game;
 }
