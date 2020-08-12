@@ -53,9 +53,9 @@ Game* createPlayers(Game* game, int num_players){
 }
 
 Game* dealCards(Game* game, Deck *deck){
-    game->players[i].hand.n_cards = 0;
     game->dealer.hand.n_cards = 0;
     for (int i=0; i<game->num_players; i++){
+        game->players[i].hand.n_cards = 0;
         for(int j=0; j<2; j++){
             game->players[i].hand.cards[j] = deck->top_card;
             game->players[i].hand.n_cards++;
