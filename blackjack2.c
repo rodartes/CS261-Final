@@ -6,6 +6,11 @@
 
 //This will set all the values in the deck in acending order
 
+// 1 = HEARTS
+// 2 = SPADES
+//  3 = CLUBS
+// 4 = Diamond
+
 Deck* deckInit(Deck *deck){
     deck = (Deck*)malloc(sizeof(Deck*));
     return deck;
@@ -99,4 +104,68 @@ Game* addCardDealer(Game* game, Deck* deck){
     deck->top_card_num++;
     deck->top_card = deck->cards[deck->top_card_num];
     return game;
+}
+
+void displaytwocards(int rankone, int ranktwo, int suitone, int suittwo){
+  char* suits[4];
+  suits[0] = "HEARTS";
+  suits[1] = "SPADES";
+  suits[2] = "CLUBS";
+  suits[3] = "DIAMOND";
+  if (suitone == 1){
+    printf("First card is %d %s\n", rankone, suits[0]);
+  }
+  if (suitone == 2){
+    printf("First card is %d %s\n", rankone, suits[1]);
+  }
+  if (suitone == 3){
+    printf("First card is %d %s\n", rankone, suits[2]);
+  }
+  if (suitone == 4){
+    printf("First card is %d %s\n", rankone, suits[3]);
+  }
+  if (suittwo == 1){
+    printf("Second card is %d %s\n", rankone, suits[0]);
+  }
+  if (suittwo == 2){
+    printf("Second card is %d %s\n", rankone, suits[1]);
+  }
+  if (suittwo == 3){
+    printf("Second card is %d %s\n", rankone, suits[2]);
+  }
+  if (suittwo == 4){
+    printf("Second card is %d %s\n", rankone, suits[3]);
+  }
+
+}
+void displayonecard(int rankone, int suitone){
+  char* suits[4];
+  suits[0] = "HEARTS";
+  suits[1] = "SPADES";
+  suits[2] = "CLUBS";
+  suits[3] = "DIAMOND";
+  if (suitone == 1){
+    printf("First card is %d %s\n", rankone, suits[0]);
+  }
+  if (suitone == 2){
+    printf("First card is %d %s\n", rankone, suits[1]);
+  }
+  if (suitone == 3){
+    printf("First card is %d %s\n", rankone, suits[2]);
+  }
+  if (suitone == 4){
+    printf("First card is %d %s\n", rankone, suits[3]);
+  }
+}
+
+void show_rules(){
+  printf("The goal of blackjack is to beat the dealer's hand without going over 21\n");
+  printf("1 Value represents Aces, which are worth 1 or 11, whichever makes a better card\n");
+  printf("11 Represents Jack, 12 Represents Queen and 13 represents King\n");
+  printf("Each player starts with two cards, one of the dealer's cards is hidden until the end.\n");
+  printf("If you go over 21 you bust, and the dealer wins regardless of the dealer's hand.\n");
+  printf("Blackjack usually means you win 1.5 the amount of your bet. Depends on the casino.\n");
+  printf("You cannot play on two aces after they are split.\n");
+  printf("To Hit press H to ask for another card and to Stand press S to hold your chips and end your turn\n");
+  printf("You will start with 1000 chips and can play until you have zero chips or press q to end\n");
 }
