@@ -165,15 +165,15 @@ void displayonecard(int rankone, int suitone){
 }
 
 void show_rules(){
-  printf("The goal of blackjack is to beat the dealer's hand without going over 21\n");
-  printf("1 Value represents Aces, which are worth 1 or 11, whichever makes a better card\n");
-  printf("11 Represents Jack, 12 Represents Queen and 13 represents King\n");
-  printf("Each player starts with two cards, one of the dealer's cards is hidden until the end.\n");
-  printf("If you go over 21 you bust, and the dealer wins regardless of the dealer's hand.\n");
-  printf("Blackjack usually means you win 1.5 the amount of your bet. Depends on the casino.\n");
-  printf("You cannot play on two aces after they are split.\n");
-  printf("To Hit press H to ask for another card and to Stand press S to hold your chips and end your turn\n");
-  printf("You will start with 1000 chips and can play until you have zero chips or press q to end\n");
+  printf("The goal of blackjack is to beat the dealer's hand without going over 21. \n");
+  printf("1 Value represents Aces, which are worth 1 or 11, whichever makes a better card. \n");
+  printf("11 Represents Jack, 12 Represents Queen and 13 represents King. \n");
+  printf("Each player starts with two cards, one of the dealer's cards is hidden until the end. \n");
+  printf("If you go over 21 you bust, and the dealer wins regardless of the dealer's hand. \n");
+  printf("Winning against the dealer offers you 2x your bet, and losing has the same risks. \n");
+  printf("You cannot play on two aces after they are split. \n");
+  printf("To Hit press H to ask for another card and to Stand press S to hold your chips and end your turn. \n");
+  printf("You will start with 1000 chips and can play until you have zero chips or press 0 after a round. \n");
 }
 
 Game* gameInit(Game* game){
@@ -292,4 +292,44 @@ int dealervsuser(int userpoints, int dealerpoints){
   else{
     return 3;
   }
+}
+
+int outcome(int ch, int vsp, int pbnk, int pbet){
+  if (ch == 1){
+    printf("Dealer went above 21, you won! \n");
+    pbnk = pbnk + pbet * 2;
+    printf("Your new balance is %d chips. \n", pbnk);
+  }
+  if (ch == 2){
+    printf("BUST! You lose. \n");
+    pbnk = pbnk - pbet * 2;
+    printf("Your new balance is %d chips. \n", pbnk);
+  }
+  else if (vsp == 0){
+    printf("Dealer won!\n");
+    pbnk = pbnk - pbet * 2;
+    printf("Your new balance is %d chips. \n", pbnk);
+  }
+  else if(vsp == 1){
+              printf("You win! \n");  
+              pbnk = pbnk + pbet * 2;
+              printf("Your new balance is %d chips. \n", pbnk);
+            }
+  else if(vsp == 3){
+    printf("Draw. \n");
+    pbnk = pbnk + pbet;
+    printf("Your balance remains the same. \n");
+  }
+  return pbnk;
+}
+
+int playagain(){
+  int z;
+  printf("Would you like to play again? (Enter 1 for yes, 0 for no): ");
+  scanf("%d", &z);
+  while(z > 1 || z < 0){
+    printf("Invalid input. Would you like to play again? (Enter 1 for yes, 0 for no): ");
+    scanf("%d", &z);
+  }
+  return z;
 }

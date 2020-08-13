@@ -60,6 +60,8 @@ void displayonecard(int rankone, int suitone);
 void show_rules();
 int bet(int chips);
 int hitstand();
+int outcome(int ch, int vsp, int pbnk, int pbet);
+int playagain();
 // void addCardPlayer(Game* game, Deck *deck);
 // void dealersinglecard(Game* game, Deck *deck);
 int calculatepoints(int cardval);
