@@ -58,7 +58,7 @@ int main(){
   int check2 = 0;
   if (chips == 0){
     while (check2 == 0){
-      printf("It seems like you ran out of chips, Press 1 to play again or press 2 to quit");
+      printf("It seems like you ran out of chips, Press 1 to play again or press 2 to quit :");
       scanf("%d", &x);
       if (x == 1){
         chips = 1000;
@@ -68,7 +68,7 @@ int main(){
       else if (x == 2){
         chips = 0;
         again = 0;
-        check2= 0;
+        check2= 1;
       }
       else {
         check2 = 0;
