@@ -165,15 +165,14 @@ void displayonecard(int rankone, int suitone){
 }
 
 void show_rules(){
-  printf("The goal of blackjack is to beat the dealer's hand without going over 21. \n");
-  printf("1 Value represents Aces, which are worth 1 or 11, whichever makes a better card. \n");
-  printf("11 Represents Jack, 12 Represents Queen and 13 represents King. \n");
-  printf("Each player starts with two cards, one of the dealer's cards is hidden until the end. \n");
-  printf("If you go over 21 you bust, and the dealer wins regardless of the dealer's hand. \n");
-  printf("Winning against the dealer offers you 2x your bet, and losing has the same risks. \n");
-  printf("You cannot play on two aces after they are split. \n");
-  printf("To Hit press H to ask for another card and to Stand press S to hold your chips and end your turn. \n");
-  printf("You will start with 1000 chips and can play until you have zero chips or press 0 after a round. \n");
+  printf("The goal of blackjack is to beat the dealer's hand without going over 21\n");
+  printf("1 Value represents Aces, which are worth 1 or 11, whichever makes a better card\n");
+  printf("11 Represents Jack, 12 Represents Queen and 13 represents King\n");
+  printf("Each player starts with two cards, one of the dealer's cards is hidden until the end.\n");
+  printf("If you go over 21 you bust, and the dealer wins regardless of the dealer's hand.\n");
+  printf("Blackjack usually means you win 1.5 the amount of your bet. Depends on the casino.\n");
+  printf("You cannot play on two aces after they are split.\n");
+  printf("To Hit press H to ask for another card and to Stand press S to hold your chips and end your turn\n");
 }
 
 Game* gameInit(Game* game){
@@ -294,42 +293,153 @@ int dealervsuser(int userpoints, int dealerpoints){
   }
 }
 
-int outcome(int ch, int vsp, int pbnk, int pbet){
-  if (ch == 1){
-    printf("Dealer went above 21, you won! \n");
-    pbnk = pbnk + pbet * 2;
-    printf("Your new balance is %d chips. \n", pbnk);
-  }
-  if (ch == 2){
-    printf("BUST! You lose. \n");
-    pbnk = pbnk - pbet * 2;
-    printf("Your new balance is %d chips. \n", pbnk);
-  }
-  else if (vsp == 0){
-    printf("Dealer won!\n");
-    pbnk = pbnk - pbet * 2;
-    printf("Your new balance is %d chips. \n", pbnk);
-  }
-  else if(vsp == 1){
-              printf("You win! \n");  
-              pbnk = pbnk + pbet * 2;
-              printf("Your new balance is %d chips. \n", pbnk);
-            }
-  else if(vsp == 3){
-    printf("Draw. \n");
-    pbnk = pbnk + pbet;
-    printf("Your balance remains the same. \n");
-  }
-  return pbnk;
+
+Deck* setup_deck(Deck *deck){
+  // Deck *deck;
+  deck = deckInit(deck);
+  deck = populateDeck(deck);
+  deck = shuffleDeck(deck);
+  deck = shuffleDeck(deck);
+  return deck;
 }
 
-int playagain(){
-  int z;
-  printf("Would you like to play again? (Enter 1 for yes, 0 for no): ");
-  scanf("%d", &z);
-  while(z > 1 || z < 0){
-    printf("Invalid input. Would you like to play again? (Enter 1 for yes, 0 for no): ");
-    scanf("%d", &z);
+Game* setup_game(Game* game){
+  // Game *game;
+  game = gameInit(game);
+  return game;
+}
+
+
+int gamesetup(Game* game, Deck* deck, int playerBank){
+  // int again = 1;
+  int userpoints =0;
+  int dealerpoints = 0;
+  int playerbet = bet(playerBank);
+  system("clear");
+  deck = shuffleDeck(deck);
+  game = dealCards(game, deck);
+  show_rules();
+  printf("\n\n");
+  printf("Player 1's card are : \n");
+  displaytwocards(game->players.hand.cards[0].rank, game->players.hand.cards[1].rank, game->players.hand.cards[0].suit, game->players.hand.cards[1].suit);
+  userpoints = calculatepoints(game->players.hand.cards[0].rank) + calculatepoints(game->players.hand.cards[1].rank);
+  printf("You have %d points in total.\n", userpoints);
+  printf("Dealer's first card is: \n");
+  displayonecard(game->dealer.hand.cards[0].rank, game->dealer.hand.cards[1].suit);
+  int i = hitstand();
+  if (i == 1){
+    printf("User's third card is :\n");
+    addCardPlayer(game,deck);
+    displayonecard(game->players.hand.cards[2].rank, game->players.hand.cards[2].suit);
+    userpoints = userpoints + calculatepoints(game->players.hand.cards[2].rank);
+    printf("Current points for user %d\n", userpoints);
+    int check = checkpoints(userpoints);
+    if (check == 1){
+      printf("You went above 21, you are busted\n");
+      playerBank = playerBank - playerbet;
+      printf("Your new balance is %d chips.", playerBank);
+      return playerBank;
+    }
+    int k = hitstand();
+    if (k == 1){
+      printf("User's fourth card is :\n");
+      addCardPlayer(game, deck);
+      displayonecard(game->players.hand.cards[3].rank, game->players.hand.cards[3].suit);
+      userpoints = userpoints + calculatepoints(game->players.hand.cards[3].rank);
+      printf("Current points for user %d\n", userpoints);
+      check = checkpoints(userpoints);
+      if (check == 1){
+        printf("You went above 21, you are busted\n");
+        playerBank = playerBank - playerbet * 2;
+        printf("Your new balance is %d chips.", playerBank);
+        return playerBank;
+      }
+    }
+    if (k == 2){
+      printf("Dealer's second card is : ");
+      displayonecard(game->dealer.hand.cards[1].rank, game->dealer.hand.cards[1].suit);
+      dealerpoints = calculatepoints(game->dealer.hand.cards[0].rank) + calculatepoints(game->dealer.hand.cards[1].rank);
+      printf("Dealer points %d\n", dealerpoints);
+      int vspoints = dealervsuser(userpoints, dealerpoints);
+      if (vspoints == 1){
+        addCardDealer(game, deck);
+        printf("Dealer's third card is : ");
+        displayonecard(game->dealer.hand.cards[2].rank, game->dealer.hand.cards[2].suit);
+        dealerpoints = dealerpoints + calculatepoints(game->dealer.hand.cards[2].rank);
+        printf("Dealer points %d\n", dealerpoints);
+        int check = checkpoints(dealerpoints);
+        if (check == 1){
+          printf("Dealer went above 21, you Won\n");
+          printf("Dealer points %d\n", dealerpoints);
+          playerBank = playerBank + playerbet * 2;
+          printf("Your new balance is %d chips.", playerBank);
+          return playerBank;
+        }
+        vspoints = dealervsuser(userpoints, dealerpoints);
+        if (vspoints == 0){
+
+          printf("Dealer won!\n");
+          printf("Dealer points %d\n", dealerpoints);
+          playerBank = playerBank - playerbet;
+          printf("Your new balance is %d chips.", playerBank);
+          return playerBank;
+        }
+        else if(vspoints == 1){
+          printf("Dealer points %d\n", dealerpoints);
+          printf("You win! \n");
+          playerBank = playerBank + playerbet * 2;
+          printf("Your new balance is %d chips.", playerBank);
+          return playerBank;
+        }
+        else
+        {
+          printf("Draw. \n");
+          playerBank = playerBank + playerbet;
+          printf("Your new balance is %d chips.", playerBank);
+          return playerBank;
+        }
+
+      }
+    }
+
   }
-  return z;
+  if (i == 2){
+    printf("Dealer's second card is : ");
+    displayonecard(game->dealer.hand.cards[1].rank, game->dealer.hand.cards[1].suit);
+    dealerpoints = calculatepoints(game->dealer.hand.cards[0].rank) + calculatepoints(game->dealer.hand.cards[1].rank);
+    printf("Dealer points %d\n", dealerpoints);
+    int vspoints = dealervsuser(userpoints, dealerpoints);
+    if (vspoints == 1){
+      addCardDealer(game, deck);
+      printf("Dealer's third card is : ");
+      displayonecard(game->dealer.hand.cards[2].rank, game->dealer.hand.cards[2].suit);
+      dealerpoints = dealerpoints + calculatepoints(game->dealer.hand.cards[2].rank);
+      int check = checkpoints(dealerpoints);
+      if (check == 1){
+        printf("Dealer went above 21, you Won\n");
+        playerBank = playerBank + playerbet * 2;
+        return playerBank;
+        printf("Your new balance is %d chips.", playerBank);
+      }
+      vspoints = dealervsuser(userpoints, dealerpoints);
+      if (vspoints == 0){
+        printf("Dealer won!\n");
+        playerBank = playerBank - playerbet;
+        printf("Your new balance is %d chips.", playerBank);
+      }
+      else if(vspoints == 1){
+        printf("You win! \n");
+        playerBank = playerBank + playerbet * 2;
+        printf("Your new balance is %d chips.", playerBank);
+        return playerBank;
+      }
+      else
+      {
+        printf("Draw. \n");
+        playerBank = playerBank + playerbet;
+        return playerBank;
+      }
+
+    }
+  }
 }
